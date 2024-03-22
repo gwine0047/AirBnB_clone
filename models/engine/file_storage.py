@@ -3,6 +3,7 @@
 import os
 import json
 import datetime
+from models.base_model import BaseModel
 
 class FileStorage:
     """This helps class stores and retrieves data"""
@@ -31,14 +32,20 @@ class FileStorage:
     def save(self):
         """This serializes objects to the Json file"""
 
+        dict_obj = {}
+        objs = FileStorage.__objects
+        for obj in objs.keys():
+            dict_obj[obj] = objs[obj].to_dict()
+        
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
-            dic = {i: j.to_dict() for i, j in FileStorage.__objects.items()}
-            json.dump(dic, f)
+            json.dump(dict_obj, f)
 
-    def new(self, val):
-        """This puts in __objects the with appropraite key"""
-        key = "{}.{}".format(type(val).__name__, val.id)
-        FileStorage.__objects[key] = val
+    def new(self, obj):
+        """This puts in __objects the value with appropraite key"""
+
+        obj_class_name = obj.__class__.__name__
+        key = "{}.{}".format(obj_class_name, obj.id)
+        FileStorage.__objects[key] = obj
 
     def all(self):
         """This returns the dictionary __objects"""
@@ -82,10 +89,14 @@ class FileStorage:
     
     def reload(self):
         """This reloads the stored objects"""
-        if not os.path.isfile(FileStorage.__file_path):
-            return
-        with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
-            od = json.load(f)
-            od = {i: self.classes()[j["__class__"]](**j)
-                  for i, j in od.items()}
-            FileStorage.__objects = od
+        if os.path.isfile(FileStorage.__file_path):        
+            with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
+                try:
+                    od = json.load(f)
+                    for key, val in od.items():
+                        cls_name, obj_id = key.split('.')
+                        cls = eval(cls_name)
+                        inst_of_cls = cls(**val)
+                        FileStorage.__objects[key] = inst_of_cls
+                except Exception:
+                    pass
