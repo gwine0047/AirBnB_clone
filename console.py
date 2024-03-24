@@ -6,6 +6,8 @@ import re
 import json
 from models.base_model import BaseModel
 from models import storage
+from models.users import User
+
 
 class HBNBCommand(cmd.Cmd):
     """The command interpreter class"""

@@ -4,6 +4,7 @@ import os
 import json
 import datetime
 from models.base_model import BaseModel
+from models.users import User
 
 class FileStorage:
     """This helps class stores and retrieves data"""
