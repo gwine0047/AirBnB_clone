@@ -1,5 +1,3 @@
-Certainly! Here's a refined description incorporating the two modes of operation:
-
 ```markdown
 # Description of the Project
 
