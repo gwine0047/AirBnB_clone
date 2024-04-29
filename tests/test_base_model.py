@@ -36,8 +36,12 @@ class TestBaseModel(unittest.TestCase):
 
         self.assertEqual(test_model_dict["__class__"], 'BaseModel')
         self.assertEqual(test_model_dict['id'], test_model.id)
-        self.assertEqual(test_model_dict['created_at'], test_model.created_at.isoformat())
-        self.assertEqual(test_model_dict['updated_at'], test_model.updated_at.isoformat())
+        self.assertEqual(
+            test_model_dict['created_at'],
+            test_model.created_at.isoformat())
+        self.assertEqual(
+            test_model_dict['updated_at'],
+            test_model.updated_at.isoformat())
 
     def test_str(self):
         """
@@ -51,6 +55,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn(test_model.id, str(test_model))
         # asssert that the dict rep (which is a string) in the __str__ method
         self.assertIn(str(test_model.__dict__), str(test_model))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -30,7 +30,7 @@ class BaseModel:
         """
         # making a copy of the dict rep of obj
         instance_dict = self.__dict__.copy()
-        # a key __class__ must be added to this dictionary 
+        # a key __class__ must be added to this dictionary
         # with the class name of the object
         instance_dict["__class__"] = self.__class__.__name__
 
